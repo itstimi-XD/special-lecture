@@ -25,5 +25,9 @@ class LectureFacade(
 
     fun getAllLectures(): List<Lecture> {
         return lectureService.getAllLectures()
+    // 모든 강의를 조회하고 LectureResponse로 변환하여 반환
+    fun getAllLectures(): List<LectureResponse> {
+        val lectures = lectureService.getAllLectures()
+        return LectureResponseConverter.lecturesToResponse(lectures)
     }
 }

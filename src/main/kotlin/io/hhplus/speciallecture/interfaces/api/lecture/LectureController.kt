@@ -25,9 +25,18 @@ class LectureController(
 //        }
 //    }
 
+    // 모든 강의 목록 조회 API
     @GetMapping
-    fun getAllLectures(): ResponseEntity<List<Lecture>> {
+    fun getAllLectures(): ResponseEntity<List<LectureResponse>> {
         val lectures = lectureFacade.getAllLectures()
+        return ResponseEntity.ok(lectures)
+    }
+
+    @GetMapping("/users/{userId}/registrations")
+    fun getUserRegistrations(
+        @PathVariable userId: Long
+    ): ResponseEntity<List<LectureResponse>> {
+        val lectures = lectureFacade.getUserRegistrations(userId)
         return ResponseEntity.ok(lectures)
     }
 }
