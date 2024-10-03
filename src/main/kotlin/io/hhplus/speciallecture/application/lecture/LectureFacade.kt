@@ -2,7 +2,6 @@ package io.hhplus.speciallecture.application.lecture
 
 import io.hhplus.speciallecture.component.user.UserReader
 import io.hhplus.speciallecture.domain.lecture.LectureService
-import io.hhplus.speciallecture.domain.user.UserService
 import io.hhplus.speciallecture.interfaces.dto.ApiResponse
 import io.hhplus.speciallecture.interfaces.dto.LectureResponse
 import io.hhplus.speciallecture.interfaces.dto.LectureResponseConverter

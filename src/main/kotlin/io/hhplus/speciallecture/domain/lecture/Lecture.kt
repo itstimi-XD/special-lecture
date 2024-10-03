@@ -4,6 +4,7 @@ import io.hhplus.speciallecture.domain.registration.Registration
 import io.hhplus.speciallecture.domain.user.User
 import jakarta.persistence.*
 import java.time.LocalDate
+import java.util.*
 
 @Entity
 data class Lecture(
