@@ -1,8 +1,9 @@
 package io.hhplus.speciallecture.domain.user
 
 import org.springframework.data.jpa.repository.JpaRepository
-import org.springframework.stereotype.Repository
+import java.util.*
 
-@Repository
-interface UserRepository : JpaRepository<User, Long> {
+interface UserRepository  {
+    // 사용자 단건 조회
+    fun findById(id: Long): Optional<User>
 }

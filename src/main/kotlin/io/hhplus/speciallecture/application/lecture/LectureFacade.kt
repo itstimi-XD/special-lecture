@@ -1,12 +1,10 @@
 package io.hhplus.speciallecture.application.lecture
 
-import io.hhplus.speciallecture.domain.lecture.Lecture
 import io.hhplus.speciallecture.domain.lecture.LectureService
 import io.hhplus.speciallecture.domain.user.UserService
 import io.hhplus.speciallecture.interfaces.dto.ApiResponse
 import io.hhplus.speciallecture.interfaces.dto.LectureResponse
 import io.hhplus.speciallecture.interfaces.dto.LectureResponseConverter
-import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 
@@ -16,19 +14,16 @@ class LectureFacade(
     private val userService: UserService
 ) {
 
-    // 특강 신청 처리 (동시성 문제 해결을 위해 비관적 락 사용)
-    @Transactional
+    // 트랜잭션 없이 로직 실행
     fun applyForLecture(lectureId: Long, userId: Long): ApiResponse {
-        val user = userService.getUser(userId)
-            ?: throw IllegalArgumentException("User not found")
+        // 비즈니스 로직은 LectureService에서 처리
+        val success = lectureService.applyForLecture(lectureId, userId)
 
-        val success = lectureService.applyForLecture(lectureId, user)
-
-        if (!success) {
-            throw IllegalStateException("Lecture is full or user already registered")
+        return if (success) {
+            ApiResponse(message = "Application successful")
+        } else {
+            ApiResponse(message = "Application failed")
         }
-
-        return ApiResponse(message = "Application successful")
     }
 
     // 모든 강의를 조회하고 LectureResponse로 변환하여 반환
@@ -37,6 +32,7 @@ class LectureFacade(
         return LectureResponseConverter.lecturesToResponse(lectures)
     }
 
+    // 특정 날짜에 진행되는 특강을 조회하고 LectureResponse로 변환하여 반환
     fun getAvailableLecturesByDate(date: LocalDate): List<LectureResponse> {
         val lectures = lectureService.getLecturesByDate(date)
         return lectures

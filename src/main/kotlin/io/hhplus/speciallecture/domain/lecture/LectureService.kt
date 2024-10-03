@@ -1,17 +1,20 @@
 package io.hhplus.speciallecture.domain.lecture
 
-import io.hhplus.speciallecture.domain.user.User
+import io.hhplus.speciallecture.component.user.UserReader
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 import java.time.LocalDate
-import java.util.*
 
 @Service
 class LectureService(
-    private val lectureRepository: LectureRepository
+    private val lectureRepository: LectureRepository,
+    private val userReader: UserReader // UserRepository 대신 UserReader를 사용
 ) {
-//    @Transactional
-    fun applyForLecture(lectureId: Long, user: User): Boolean {
+    @Transactional
+    fun applyForLecture(lectureId: Long, userId: Long): Boolean {
+        // 사용자 존재 여부 검증
+        val user = userReader.findUserById(userId)
+
         val lecture = lectureRepository.findById(lectureId)
             .orElseThrow { throw IllegalArgumentException("Lecture not found") }
 
