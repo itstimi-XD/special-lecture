@@ -1,4 +1,4 @@
-package io.hhplus.speciallecture.api.lecture
+package io.hhplus.speciallecture.application
 
 import io.hhplus.speciallecture.application.lecture.LectureFacade
 import io.hhplus.speciallecture.component.user.UserReader
@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.*
 import java.time.LocalDate
-import java.util.*
 
 class LectureFacadeTest {
 

@@ -1,4 +1,4 @@
-package io.hhplus.speciallecture
+package io.hhplus.speciallecture.api
 
 import io.hhplus.speciallecture.application.lecture.LectureFacade
 import io.hhplus.speciallecture.interfaces.api.lecture.LectureController

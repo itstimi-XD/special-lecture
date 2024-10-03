@@ -1,4 +1,4 @@
-package io.hhplus.speciallecture
+package io.hhplus.speciallecture.domain
 
 import io.hhplus.speciallecture.domain.lecture.Lecture
 import io.hhplus.speciallecture.domain.user.User
