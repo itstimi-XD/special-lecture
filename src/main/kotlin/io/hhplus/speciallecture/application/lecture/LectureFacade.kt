@@ -8,6 +8,7 @@ import io.hhplus.speciallecture.interfaces.dto.LectureResponse
 import io.hhplus.speciallecture.interfaces.dto.LectureResponseConverter
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
+import java.time.LocalDate
 
 @Service
 class LectureFacade(
@@ -34,6 +35,13 @@ class LectureFacade(
     fun getAllLectures(): List<LectureResponse> {
         val lectures = lectureService.getAllLectures()
         return LectureResponseConverter.lecturesToResponse(lectures)
+    }
+
+    fun getAvailableLecturesByDate(date: LocalDate): List<LectureResponse> {
+        val lectures = lectureService.getLecturesByDate(date)
+        return lectures
+            .filter { it.capacity > 0 }  // 정원이 0인 특강 제외
+            .map { LectureResponseConverter.lectureToResponse(it) }
     }
 
     // 사용자가 신청한 특강 목록을 조회하고 LectureResponse로 변환하여 반환

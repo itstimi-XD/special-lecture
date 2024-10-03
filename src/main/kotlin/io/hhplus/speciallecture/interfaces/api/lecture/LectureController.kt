@@ -7,6 +7,7 @@ import io.hhplus.speciallecture.interfaces.dto.LectureResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import java.time.LocalDate
 
 @RestController
 @RequestMapping("/lectures")
@@ -31,6 +32,14 @@ class LectureController(
     @GetMapping
     fun getAllLectures(): ResponseEntity<List<LectureResponse>> {
         val lectures = lectureFacade.getAllLectures()
+        return ResponseEntity.ok(lectures)
+    }
+
+    @GetMapping("/available-lectures")
+    fun getAvailableLectures(
+        @RequestParam("date") date: LocalDate
+    ): ResponseEntity<List<LectureResponse>> {
+        val lectures = lectureFacade.getAvailableLecturesByDate(date)
         return ResponseEntity.ok(lectures)
     }
 

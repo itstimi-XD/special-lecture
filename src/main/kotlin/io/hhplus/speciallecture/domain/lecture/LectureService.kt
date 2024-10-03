@@ -3,13 +3,14 @@ package io.hhplus.speciallecture.domain.lecture
 import io.hhplus.speciallecture.domain.user.User
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
+import java.time.LocalDate
 import java.util.*
 
 @Service
 class LectureService(
     private val lectureRepository: LectureRepository
 ) {
-    @Transactional
+//    @Transactional
     fun applyForLecture(lectureId: Long, user: User): Boolean {
         val lecture = lectureRepository.findById(lectureId)
             .orElseThrow { throw IllegalArgumentException("Lecture not found") }
@@ -27,5 +28,10 @@ class LectureService(
 
     fun getAllLectures(): List<Lecture> {
         return lectureRepository.findAll()
+    }
+
+    fun getLecturesByDate(date: LocalDate): List<Lecture> {
+        // 날짜별로 강의 조회하는 로직 추가
+        return lectureRepository.findByDate(date)
     }
 }

@@ -6,6 +6,7 @@ import jakarta.persistence.LockModeType
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Lock
 import org.springframework.stereotype.Repository
+import java.time.LocalDate
 import java.util.*
 
 @Repository
@@ -17,6 +18,10 @@ class LectureRepositoryJpaImpl(
         return lectureJpaRepository.findAll()
     }
 
+    override fun findByDate(date: LocalDate): List<Lecture> {
+        // 날짜별로 강의 조회하는 로직 추가
+        return lectureJpaRepository.findByLectureDate(date)
+    }
     override fun save(lecture: Lecture): Lecture {
         return lectureJpaRepository.save(lecture)
     }
@@ -32,4 +37,7 @@ interface LectureJpaRepository : JpaRepository<Lecture, Long> {
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)// 비관적 락(Pessimistic Lock)을 설정
     override fun findById(id: Long): Optional<Lecture>
+
+    // 날짜별로 강의를 조회하는 쿼리 메서드 추가
+    fun findByLectureDate(date: LocalDate): List<Lecture>
 }

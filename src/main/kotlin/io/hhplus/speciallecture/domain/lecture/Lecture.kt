@@ -3,6 +3,7 @@ package io.hhplus.speciallecture.domain.lecture
 import io.hhplus.speciallecture.domain.registration.Registration
 import io.hhplus.speciallecture.domain.user.User
 import jakarta.persistence.*
+import java.time.LocalDate
 
 @Entity
 data class Lecture(
@@ -14,7 +15,9 @@ data class Lecture(
     var capacity: Int = 30, // 최대 수용 인원 30명
 
     @OneToMany(mappedBy = "lecture", cascade = [CascadeType.PERSIST, CascadeType.MERGE])
-    val registrations: MutableList<Registration> = mutableListOf()
+    val registrations: MutableList<Registration> = mutableListOf(),
+
+    val lectureDate: LocalDate
 
 ) {
 //    @Synchronized
