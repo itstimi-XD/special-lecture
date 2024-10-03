@@ -13,11 +13,11 @@ data class Lecture(
     val lecturer: String,
     var capacity: Int = 30, // 최대 수용 인원 30명
 
-    @OneToMany(mappedBy = "lecture")
+    @OneToMany(mappedBy = "lecture", cascade = [CascadeType.PERSIST, CascadeType.MERGE])
     val registrations: MutableList<Registration> = mutableListOf()
 
 ) {
-    @Synchronized
+//    @Synchronized
     fun apply(user: User): Boolean {
         if (capacity > 0 && registrations.none { it.user.id == user.id }) {
             registrations.add(Registration(user = user, lecture = this))
