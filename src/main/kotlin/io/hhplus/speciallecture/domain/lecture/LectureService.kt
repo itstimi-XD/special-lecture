@@ -1,6 +1,5 @@
 package io.hhplus.speciallecture.domain.lecture
 
-import io.hhplus.speciallecture.component.user.UserReader
 import io.hhplus.speciallecture.domain.user.User
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
