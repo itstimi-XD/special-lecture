@@ -1,5 +1,6 @@
 package io.hhplus.speciallecture.application.lecture
 
+import io.hhplus.speciallecture.component.user.UserReader
 import io.hhplus.speciallecture.domain.lecture.LectureService
 import io.hhplus.speciallecture.domain.user.UserService
 import io.hhplus.speciallecture.interfaces.dto.ApiResponse
@@ -11,13 +12,13 @@ import java.time.LocalDate
 @Service
 class LectureFacade(
     private val lectureService: LectureService,
-    private val userService: UserService
+    private val userReader: UserReader
 ) {
 
     // 트랜잭션 없이 로직 실행
     fun applyForLecture(lectureId: Long, userId: Long): ApiResponse {
-        // 비즈니스 로직은 LectureService에서 처리
-        val success = lectureService.applyForLecture(lectureId, userId)
+        val user = userReader.findUserById(userId)
+        val success = lectureService.applyForLecture(lectureId, user)
 
         return if (success) {
             ApiResponse(message = "Application successful")
@@ -42,8 +43,7 @@ class LectureFacade(
 
     // 사용자가 신청한 특강 목록을 조회하고 LectureResponse로 변환하여 반환
     fun getUserRegistrations(userId: Long): List<LectureResponse> {
-        val user =userService.getUser(userId)
-            ?: throw IllegalArgumentException("User not found")
+        val user = userReader.findUserById(userId)
 
         return user.registrations.map { it.lecture }
             .let { LectureResponseConverter.lecturesToResponse(it) }
