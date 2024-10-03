@@ -14,6 +14,14 @@ class UserRepositoryJpaImpl(
     override fun findById(id: Long): Optional<User> {
         return userJpaRepository.findById(id)
     }
+
+    override fun save(user: User): User {
+        return userJpaRepository.save(user)
+    }
+
+    override fun findAll(): List<User> {
+        return userJpaRepository.findAll()
+    }
 }
 
 // JPA 리포지토리 구현체
