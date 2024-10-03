@@ -9,10 +9,13 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.springframework.boot.test.context.SpringBootTest
+import java.time.LocalDate
 
 
 @SpringBootTest
 class LectureServiceTest {
+
+    val date = LocalDate.of(2024, 10, 4)
 
     @Mock
     private lateinit var lectureRepository: LectureRepository
@@ -24,8 +27,8 @@ class LectureServiceTest {
     fun `모든 강의를 조회할 수 있다`() {
         // Given
         val lectures = listOf(
-            Lecture(id = 1L, title = "성민이의 걸스 힙합 수업", lecturer = "ANNA", capacity = 30),
-            Lecture(id = 2L, title = "로쉐의 섹시 그잡채 choreography 수업", lecturer = "ROCHER", capacity = 0)
+            Lecture(id = 1L, title = "성민이의 걸스 힙합 수업", lecturer = "ANNA", capacity = 30, lectureDate = date),
+            Lecture(id = 2L, title = "로쉐의 섹시 그잡채 choreography 수업", lecturer = "ROCHER", capacity = 0, lectureDate = date)
         )
         `when`(lectureRepository.findAll()).thenReturn(lectures)
 
