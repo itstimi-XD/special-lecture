@@ -1,9 +1,8 @@
 package io.hhplus.speciallecture.domain.lecture
 
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
+import io.hhplus.speciallecture.domain.registration.Registration
+import io.hhplus.speciallecture.domain.user.User
+import jakarta.persistence.*
 
 @Entity
 data class Lecture(
@@ -11,11 +10,17 @@ data class Lecture(
     val id: Long = 0,
 
     val title: String,
-    var capacity: Int = 30 // 최대 수용 인원 30명
+    val lecturer: String,
+    var capacity: Int = 30, // 최대 수용 인원 30명
+
+    @OneToMany(mappedBy = "lecture")
+    val registrations: MutableList<Registration> = mutableListOf()
 
 ) {
-    fun apply(): Boolean {
-        if (capacity > 0) {
+    @Synchronized
+    fun apply(user: User): Boolean {
+        if (capacity > 0 && registrations.none { it.user.id == user.id }) {
+            registrations.add(Registration(user = user, lecture = this))
             capacity--
             return true
         }
