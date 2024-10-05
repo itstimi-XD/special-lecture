@@ -27,10 +27,13 @@ class SpecialLectureApplicationTests {
     @Autowired
     private lateinit var userRepository: UserRepository
 
+    private val totalUsers = 40
+    private val lectureCapacity = 30
+
     @BeforeEach
     fun setUp() {
         // 테스트 전에 강의와 사용자를 미리 세팅
-        lectureRepository.save(Lecture(title = "Test Lecture", lecturer = "Test Lecturer", capacity = 30, lectureDate = LocalDate.now()))
+        lectureRepository.save(Lecture(title = "Test Lecture", lecturer = "Test Lecturer", capacity = lectureCapacity, lectureDate = LocalDate.now()))
         (1..40).forEach {
             userRepository.save(User(name = "User $it"))
         }
@@ -42,8 +45,8 @@ class SpecialLectureApplicationTests {
         val lecture = lectureRepository.findAll().first() // 저장된 강의 조회
         val users = userRepository.findAll() // 저장된 사용자 40명 조회
 
-        val threadPool: ExecutorService = Executors.newFixedThreadPool(40) // 스레드 풀 생성
-        val latch = CountDownLatch(40) // 40명의 스레드가 완료될 때까지 기다림
+        val threadPool: ExecutorService = Executors.newFixedThreadPool(totalUsers) // 스레드 풀 생성
+        val latch = CountDownLatch(totalUsers) // 40명의 스레드가 완료될 때까지 기다림
 
         var successCount = 0
         var failureCount = 0
@@ -66,7 +69,7 @@ class SpecialLectureApplicationTests {
         latch.await() // 모든 스레드가 완료될 때까지 대기
 
         // Then
-        assertEquals(30, successCount, "성공한 사람은 30명이여야 함")
-        assertEquals(10, failureCount, "실패한 사람은 10명이여야 함")
+        assertEquals(30, successCount, "성공한 사람은 $lectureCapacity 명이여야 함")
+        assertEquals(10, failureCount, "실패한 사람은 ${totalUsers - lectureCapacity}명이여야 함")
     }
 }
